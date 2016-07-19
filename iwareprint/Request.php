@@ -16,6 +16,7 @@ use ReflectionObject;
  */
 class Request {
 
+    public static $lastResponse;
     private $url;
     private $params = [];
     private $json = true;
@@ -103,6 +104,7 @@ class Request {
         ];
 
         $json = file_get_contents($this->url, false, stream_context_create($opts));
+        static::$lastResponse = $json;
         if (null == $json) {
             return new Response(Response::STATUS_ERROR, "Brak poprawnej odpowiedzi " . $json);
         }

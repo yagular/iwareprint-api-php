@@ -5,6 +5,9 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
+use iwareprint\representations\OrderStatus;
+use iwareprint\Request;
+
 include_once 'iwareprint/Iwareprint.php';
 include_once 'iwareprint/Request.php';
 include_once 'iwareprint/Response.php';
@@ -32,11 +35,13 @@ include_once 'iwareprint/forms/OrderGroupAddForm.php';
 include_once 'iwareprint/forms/CalculationForm.php';
 
 $iwareprint = new iwareprint\Iwareprint("http://localhost/iwareprint/", // Adres drukarni
-        "d87198a702fafa354f711bb955d581bbd2ebdeb6a6352985250ba6de7da282ffae717b06bf0a08a76d" // Klucz
+        "" // Klucz
         );
 
-
-var_dump($iwareprint->getShipmentMethods());
+$status = new OrderStatus();
+//$status->setStatusId(3);
+//var_dump($iwareprint->setOrderGroupStatus(781,$status));
+var_dump(Request::$lastResponse);
 
 class Examples {
 
