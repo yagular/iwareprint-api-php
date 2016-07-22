@@ -28,6 +28,7 @@ class Iwareprint {
         $params = ["key" => $this->key];
         $result = (new Request($this->baseUrl . "api/" . $uri, $params, $object))->run();
         if ("ok" != $result->getStatus()) {
+            var_dump(Request::$lastResponse);
             throw new IwareprintException($result->getResult());
         }
         return $result->getResult();

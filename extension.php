@@ -21,12 +21,24 @@ switch($_REQUEST["action"]) {
     case "dashboardview":
         echo "<h1>Widok przykładowy systemie test</h1>";
         break;
-    case "menuview":
-        echo "<h1>Widok przykładowy w menu</h1>";
+    case "form":
+        if (isSet($_REQUEST["system"]["POST"])) {
+            echo "<h1>Wpisane pole to -> ".$_REQUEST["system"]["POST"]["testField"]."</h1>";
+            var_dump($_REQUEST);
+        } else {
+            echo "<h1>Przykładowy formularz</h1>";
+            echo "<form action='' method='post'>Testowe pole<input name='testField' /><input type='submit' /></form>";
+        }
+
         break;
     case "setsettings":
         $key = $_REQUEST["apiAccessKey"];
-        file_put_contents("apiaccesskey",$key);
+        $applicationConfirmKey = $_REQUEST["applicationConfirmKey"];
+        $extensionPrivateKey = $_REQUEST["extensionPrivateKey"];
+        file_put_contents("apiaccesskey",json_encode([
+            "apiaccesskey"=>$key,
+            "extensionPrivateKey"=>$extensionPrivateKey
+        ]));
         break;
     case "config":
         $baseUrl = "http://".$_SERVER["SERVER_NAME"]."/IwareprintApiClient/";
@@ -59,8 +71,8 @@ switch($_REQUEST["action"]) {
         $adminMenuLink = new ExtensionAdminMenuElement();
         $adminMenuLink->setIcon("coffee"); //font-awesome
         $adminMenuLink->setSection("settings");
-        $adminMenuLink->setTitle("Testowy link");
-        $adminMenuLink->setUrl($baseUrl."extension.php?action=menuview");
+        $adminMenuLink->setTitle("Testowy formularz");
+        $adminMenuLink->setUrl($baseUrl."extension.php?action=form");
         /*
          *  ("order", "#{Zamówienia}"),
             ("order-modify", "#{Zamówienia - modyfikacja}"),

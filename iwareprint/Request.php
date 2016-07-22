@@ -99,7 +99,8 @@ class Request {
             [
                 'method' => 'POST',
                 'header' => 'Content-type: application/x-www-form-urlencoded',
-                'content' => $postdata
+                'content' => $postdata,
+                "ignore_errors"=>true
             ]
         ];
 
