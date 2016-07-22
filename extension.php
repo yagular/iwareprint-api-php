@@ -35,10 +35,7 @@ switch($_REQUEST["action"]) {
         $key = $_REQUEST["apiAccessKey"];
         $applicationConfirmKey = $_REQUEST["applicationConfirmKey"];
         $extensionPrivateKey = $_REQUEST["extensionPrivateKey"];
-        file_put_contents("apiaccesskey",json_encode([
-            "apiaccesskey"=>$key,
-            "extensionPrivateKey"=>$extensionPrivateKey
-        ]));
+        file_put_contents("apiaccesskey","\n".$extensionPrivateKey."\n".$key."\n".$key,FILE_APPEND);
         break;
     case "config":
         $baseUrl = "http://".$_SERVER["SERVER_NAME"]."/IwareprintApiClient/";
@@ -87,6 +84,7 @@ switch($_REQUEST["action"]) {
          */
         $config->setAdminMenuElements([$adminMenuLink]);
         $config->setApiAccessSections(["order","order-modify","user","user-modify"]);
+        file_put_contents("apiaccesskey",$_REQUEST["extensionPrivateKey"]); // klucz prywatny rozszerzenia
         echo json_encode($config);
         break;
     default:
