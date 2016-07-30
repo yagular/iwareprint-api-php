@@ -9,6 +9,10 @@ include_once 'iwareprint/extension/ExtensionConfig.php';
 include_once 'iwareprint/extension/ExtensionCustomView.php';
 
 switch($_REQUEST["action"]) {
+
+    case "cart":
+        var_dump($_REQUEST["system"]["cart"]);
+        break;
     case "frontendheader":
 
         if (isSet($_REQUEST["system"]["userLogged"])) {
@@ -64,7 +68,12 @@ switch($_REQUEST["action"]) {
         $customViewFrontend->setPath("frontend.header");
         $customViewFrontend->setContentType(ExtensionCustomView::TYPE_EXTERNAL);
 
-        $config->setCustomViews([$customView,$customViewFrontend]);
+        $customViewCart = new ExtensionCustomView();
+        $customViewCart->setContent($baseUrl."extension.php?action=cart");
+        $customViewCart->setPath("frontend.cart");
+        $customViewCart->setContentType(ExtensionCustomView::TYPE_EXTERNAL);
+
+        $config->setCustomViews([$customView,$customViewFrontend,$customViewCart]);
         $adminMenuLink = new ExtensionAdminMenuElement();
         $adminMenuLink->setIcon("coffee"); //font-awesome
         $adminMenuLink->setSection("settings");
