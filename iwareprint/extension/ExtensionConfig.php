@@ -6,7 +6,7 @@
  * Time: 10:03 PM
  */
 
-namespace extensions;
+namespace iwareprint\extensions;
 
 
 class ExtensionConfig {
@@ -15,6 +15,7 @@ class ExtensionConfig {
     public $customViews = [];
     public $apiAccessSections = [];
     public $requiredModules = [];
+    public $proxySettings = [];
 
     /**
      * @return mixed
@@ -28,6 +29,20 @@ class ExtensionConfig {
      */
     public function setSetSettingsUrl($setSettingsUrl) {
         $this->setSettingsUrl = $setSettingsUrl;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProxySettings() {
+        return $this->proxySettings;
+    }
+
+    /**
+     * @param array $proxySettings
+     */
+    public function setProxySettings($proxySettings) {
+        $this->proxySettings = $proxySettings;
     }
 
 

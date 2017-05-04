@@ -3,10 +3,12 @@
 use extensions\ExtensionAdminMenuElement;
 use extensions\ExtensionConfig;
 use extensions\ExtensionCustomView;
+use extensions\ExtensionProxySetting;
 
 include_once 'iwareprint/extension/ExtensionAdminMenuElement.php';
 include_once 'iwareprint/extension/ExtensionConfig.php';
 include_once 'iwareprint/extension/ExtensionCustomView.php';
+include_once 'iwareprint/extension/ExtensionProxySetting.php';
 
 switch($_REQUEST["action"]) {
 
@@ -23,7 +25,7 @@ switch($_REQUEST["action"]) {
 //        var_dump($_REQUEST);
         break;
     case "dashboardview":
-        echo "<h1>Widok przykładowy systemie test</h1>";
+        var_dump($_REQUEST["view"]["product"]);
         break;
     case "form":
         if (isSet($_REQUEST["system"]["POST"])) {
@@ -60,12 +62,12 @@ switch($_REQUEST["action"]) {
 
         $customView = new ExtensionCustomView();
         $customView->setContent($baseUrl."extension.php?action=dashboardview");
-        $customView->setPath("backend.dashboard.top");
+        $customView->setPath("frontend.product");
         $customView->setContentType(ExtensionCustomView::TYPE_EXTERNAL);
 
         $customViewFrontend = new ExtensionCustomView();
         $customViewFrontend->setContent($baseUrl."extension.php?action=frontendheader");
-        $customViewFrontend->setPath("frontend.header");
+        $customViewFrontend->setPath("frontend.user-panel");
         $customViewFrontend->setContentType(ExtensionCustomView::TYPE_EXTERNAL);
 
         $customViewCart = new ExtensionCustomView();
@@ -92,10 +94,18 @@ switch($_REQUEST["action"]) {
             ("shipment-methods", "#{Metody wysyłki}"),
          */
         $config->setAdminMenuElements([$adminMenuLink]);
+
+        $proxy = new ExtensionProxySetting();
+        $proxy->localUri = "test-extension"; // result path http://printinghouse.iwareprint.pl/px/test-extension/
+        $proxy->setRemoteUrl($baseUrl."extension.php?action=testextensionexample");
+        $config->setProxySettings([$proxy]);
+
         $config->setApiAccessSections(["order","order-modify","user","user-modify"]);
         file_put_contents("apiaccesskey",$_REQUEST["extensionPrivateKey"]); // klucz prywatny rozszerzenia
         echo json_encode($config);
         break;
     default:
         echo "<h1>action ".$_REQUEST["action"]."</h1>";
+        var_dump($_REQUEST);
+        var_dump($_SERVER);
 }

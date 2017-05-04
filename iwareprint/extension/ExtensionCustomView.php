@@ -6,7 +6,7 @@
  * Time: 10:03 PM
  */
 
-namespace extensions;
+namespace iwareprint\extensions;
 
 
 class ExtensionCustomView {

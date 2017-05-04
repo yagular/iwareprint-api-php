@@ -6,7 +6,7 @@
  * Time: 10:04 PM
  */
 
-namespace extensions;
+namespace iwareprint\extensions;
 
 
 class ExtensionAdminMenuElement {

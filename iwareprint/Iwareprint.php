@@ -10,7 +10,9 @@ namespace iwareprint;
 use iwareprint\criteria\OrderCriteria;
 use iwareprint\criteria\ProductCriteria;
 use iwareprint\criteria\UserCriteria;
+use iwareprint\forms\AddOrderFileDelegatedForm;
 use iwareprint\forms\CalculationForm;
+use iwareprint\forms\OrderFilePreflightStatusForm;
 use iwareprint\forms\OrderGroupAddForm;
 use iwareprint\forms\UserAddForm;
 
@@ -28,8 +30,8 @@ class Iwareprint {
         $params = ["key" => $this->key];
         $result = (new Request($this->baseUrl . "api/" . $uri, $params, $object))->run();
         if ("ok" != $result->getStatus()) {
-            var_dump(Request::$lastResponse);
-            throw new IwareprintException($result->getResult());
+//            var_dump(Request::$lastResponse);
+            throw new IwareprintException($result->getResult()."\n".Request::$lastResponse);
         }
         return $result->getResult();
     }
@@ -91,6 +93,26 @@ class Iwareprint {
         }
         return Util::fetch($result->getResult(),  representations\OrderFileRepresentation::class);
     }
+
+    /**
+     * Dodaje plik do zlecenia (delegated)
+     * @param int $orderId
+     * @param \iwareprint\representations\Url $url
+     * @return representations\OrderFileRepresentation
+     */
+    public function addOrderFileDelegated(AddOrderFileDelegatedForm $form) {
+        return Util::fetch($this->request("orderFile/addDelegated/", $form), representations\OrderFileRepresentation::class);
+    }
+
+    /**
+     * Dodaje plik do zlecenia (delegated)
+     * @param int $orderId
+     * @param \iwareprint\representations\Url $url
+     * @return representations\OrderFileRepresentation
+     */
+    public function setPreflightStatus($orderFileId, OrderFilePreflightStatusForm $form) {
+        return Util::fetch($this->request("orderFile/setPreflightStatus/", $form), representations\OrderFileRepresentation::class);
+    }
     
     /**
      * Usuwa plik
@@ -99,6 +121,15 @@ class Iwareprint {
      */
     public function deleteOrderFile($id) {
         return $this->request("orderFile/delete/".$id);
+    }
+
+    /**
+     * Usuwa referencje do pliku
+     * @param int $id
+     * @return string
+     */
+    public function deleteOrderFileReference($id) {
+        return $this->request("orderFile/deleteReference/".$id);
     }
 
     /**
