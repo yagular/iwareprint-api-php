@@ -111,7 +111,7 @@ class Iwareprint {
      * @return representations\OrderFileRepresentation
      */
     public function setPreflightStatus($orderFileId, OrderFilePreflightStatusForm $form) {
-        return Util::fetch($this->request("orderFile/setPreflightStatus/", $form), representations\OrderFileRepresentation::class);
+        return Util::fetch($this->request("orderFile/setPreflightStatus/".$orderFileId, $form), representations\OrderFileRepresentation::class);
     }
     
     /**
