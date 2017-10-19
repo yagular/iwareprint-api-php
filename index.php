@@ -44,11 +44,9 @@ include_once 'iwareprint/forms/CalculationForm.php';
 //$status->setStatusId(3);
 //var_dump($iwareprint->setOrderGroupStatus(781,$status));
 
-$iwareprint = new Iwareprint("http://drukarniatestowacp.iwareprint.pl/","1d2c0fc049a36cee35dc53bc9f212f3ca9501603fd2fa86c2529a6b9210d0167159ba3d869d00e14c96cda");
-$iwareprintProducts = $iwareprint->findProducts(new ProductCriteria());
+$iwareprint = new Iwareprint("http://twojadrukarnia.iwareprint.pl/","-- klucz API --");
 
-var_dump(Request::$lastResponse);
-exit;
+
 class Examples {
 
     private $api;
